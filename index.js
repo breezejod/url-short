@@ -23,12 +23,16 @@ app.get("/:shortId", async (req, res) => {
     {
       $push: {
         visitHistory: {
-            timestamp: Date.now(),
+          timestamp: Date.now(),
         },
       },
     }
   );
+  if (!entry) {
+    return res.status(404).json({ error: "Short URL not found" });
+  }
   res.redirect(entry.redirectURL);
 });
+
 
 app.listen(PORT, () => console.log(`Server started at PORT: ${PORT}`));
